@@ -5,9 +5,428 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>智能待办清单</title>
   <meta name="description" content="Vue+Element Plus待办清单项目">
+  <link rel="stylesheet" href="https://unpkg.com/element-plus@2.4.4/dist/index.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f7fa;
+    }
+    .app-container {
+      width: 100%;
+      min-height: 100vh;
+    }
+    .app-header {
+      background-color: #1989fa;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .app-header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .app-main {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .todo-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .card-header span {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .todo-input {
+      margin-bottom: 20px;
+    }
+    .todo-filters {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .todo-list {
+      margin: 20px 0;
+      border: 1px solid #ebeef5;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .todo-item {
+      padding: 12px 20px;
+      border-bottom: 1px solid #ebeef5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+    .todo-item:last-child {
+      border-bottom: none;
+    }
+    .todo-item:hover {
+      background-color: #f5f7fa;
+    }
+    .todo-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .todo-text {
+      flex: 1;
+    }
+    .done {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .todo-stats {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #ebeef5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .todo-chart {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fafafa;
+      border-radius: 8px;
+    }
+    .todo-chart h3 {
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+    .chart-item {
+      text-align: center;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chart-label {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .chart-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: #333;
+    }
+    .done-value {
+      color: #67c23a;
+    }
+    .empty-tip {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+    .app-footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      border-top: 1px solid #e5e5e5;
+      margin-top: 20px;
+    }
+    .fallback-loading {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f7fa;
+    }
+    .fallback-card {
+      padding: 40px;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .fallback-loading-icon {
+      font-size: 48px;
+      color: #1989fa;
+      margin-bottom: 20px;
+    }
+    .fallback-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .fallback-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+  <div id="app">
+    <div class="app-container">
+      <header class="app-header">
+        <h1>🎯 智能待办清单</h1>
+      </header>
+      <main class="app-main">
+        <div class="todo-card">
+          <div class="card-header">
+            <span>📝 我的待办清单</span>
+            <button class="el-button el-button--primary el-button--small" onclick="addTodo()">添加待办</button>
+          </div>
+
+          <div class="todo-input">
+            <input type="text" id="todoContent" placeholder="请输入待办内容" class="el-input__inner" style="width: 100%; padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;" onkeyup="if(event.keyCode==13) addTodo()">
+          </div>
+
+          <div class="todo-filters">
+            <select id="categoryFilter" class="el-select__input" style="padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;">
+              <option value="">所有分类</option>
+              <option value="工作">工作</option>
+              <option value="学习">学习</option>
+              <option value="生活">生活</option>
+              <option value="其他">其他</option>
+            </select>
+            <select id="priorityFilter" class="el-select__input" style="padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;">
+              <option value="">所有优先级</option>
+              <option value="low">低</option>
+              <option value="medium">中</option>
+              <option value="high">高</option>
+            </select>
+            <select id="statusFilter" class="el-select__input" style="padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;">
+              <option value="">所有状态</option>
+              <option value="false">未完成</option>
+              <option value="true">已完成</option>
+            </select>
+          </div>
+
+          <div class="todo-list" id="todoList">
+            <!-- 待办项将通过JavaScript动态生成 -->
+          </div>
+
+          <div class="todo-stats">
+            <span id="stats">已完成：0 / 总数：0</span>
+            <button class="el-button el-button--text" onclick="clearDone()" id="clearBtn" disabled>清空已完成</button>
+          </div>
+
+          <div class="todo-chart">
+            <h3>📊 任务统计</h3>
+            <div class="chart-grid">
+              <div class="chart-item">
+                <div class="chart-label">总任务数</div>
+                <div class="chart-value" id="totalCount">0</div>
+              </div>
+              <div class="chart-item">
+                <div class="chart-label">已完成</div>
+                <div class="chart-value done-value" id="doneCount">0</div>
+              </div>
+              <div class="chart-item">
+                <div class="chart-label">完成率</div>
+                <div class="chart-value" id="completionRate">0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="app-footer">
+        <p>© 2025 智能待办系统 - 结课项目</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // 全局变量
+    let todoList = [];
+    let nextId = 1;
+
+    // 从本地存储加载数据
+    function loadFromLocalStorage() {
+      const stored = localStorage.getItem('todoList');
+      if (stored) {
+        try {
+          todoList = JSON.parse(stored);
+          if (todoList.length > 0) {
+            nextId = Math.max(...todoList.map(todo => todo.id)) + 1;
+          }
+        } catch (e) {
+          console.error('Failed to parse todo list:', e);
+          todoList = [];
+        }
+      } else {
+        // 默认数据
+        todoList = [
+          { id: nextId++, content: '完成Vue项目部署', done: false, category: '工作', priority: 'high' },
+          { id: nextId++, content: '学习Element Plus', done: true, category: '学习', priority: 'medium' },
+          { id: nextId++, content: '购买生活用品', done: false, category: '生活', priority: 'low' }
+        ];
+        saveToLocalStorage();
+      }
+    }
+
+    // 保存到本地存储
+    function saveToLocalStorage() {
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    }
+
+    // 获取分类标签样式
+    function getCategoryClass(category) {
+      const categoryMap = {
+        '工作': 'el-tag--primary',
+        '学习': 'el-tag--success',
+        '生活': 'el-tag--warning',
+        '其他': 'el-tag--info'
+      };
+      return categoryMap[category] || 'el-tag--info';
+    }
+
+    // 获取优先级标签样式
+    function getPriorityClass(priority) {
+      const priorityMap = {
+        'low': 'el-tag--success',
+        'medium': 'el-tag--warning',
+        'high': 'el-tag--danger'
+      };
+      return priorityMap[priority] || 'el-tag--warning';
+    }
+
+    // 获取优先级文本
+    function getPriorityText(priority) {
+      const priorityMap = {
+        'low': '低',
+        'medium': '中',
+        'high': '高'
+      };
+      return priorityMap[priority] || '中';
+    }
+
+    // 渲染待办列表
+    function renderTodoList() {
+      const todoListElement = document.getElementById('todoList');
+      const categoryFilter = document.getElementById('categoryFilter').value;
+      const priorityFilter = document.getElementById('priorityFilter').value;
+      const statusFilter = document.getElementById('statusFilter').value;
+
+      // 筛选待办列表
+      const filteredTodos = todoList.filter(todo => {
+        let match = true;
+        if (categoryFilter) {
+          match = match && todo.category === categoryFilter;
+        }
+        if (priorityFilter) {
+          match = match && todo.priority === priorityFilter;
+        }
+        if (statusFilter !== '') {
+          match = match && todo.done === (statusFilter === 'true');
+        }
+        return match;
+      });
+
+      if (filteredTodos.length === 0) {
+        todoListElement.innerHTML = '<div class="empty-tip">暂无待办，点击添加开始吧～</div>';
+      } else {
+        todoListElement.innerHTML = filteredTodos.map(todo => `
+          <div class="todo-item">
+            <div class="todo-content">
+              <input type="checkbox" ${todo.done ? 'checked' : ''} onclick="toggleDone(${todo.id})" style="margin-right: 10px;">
+              <span class="todo-text ${todo.done ? 'done' : ''}">${todo.content}</span>
+              <span class="el-tag ${getCategoryClass(todo.category)} el-tag--small" style="margin-right: 5px; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${todo.category}</span>
+              <span class="el-tag ${getPriorityClass(todo.priority)} el-tag--small" style="margin-right: 5px; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${getPriorityText(todo.priority)}</span>
+            </div>
+            <button class="el-button el-button--danger el-button--small" onclick="deleteTodo(${todo.id})" style="padding: 4px 12px; font-size: 12px;">删除</button>
+          </div>
+        `).join('');
+      }
+
+      updateStats();
+    }
+
+    // 更新统计信息
+    function updateStats() {
+      const total = todoList.length;
+      const done = todoList.filter(todo => todo.done).length;
+      const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('stats').textContent = `已完成：${done} / 总数：${total}`;
+      document.getElementById('totalCount').textContent = total;
+      document.getElementById('doneCount').textContent = done;
+      document.getElementById('completionRate').textContent = `${completionRate}%`;
+
+      document.getElementById('clearBtn').disabled = done === 0;
+    }
+
+    // 添加待办
+    function addTodo() {
+      const input = document.getElementById('todoContent');
+      const content = input.value.trim();
+      if (!content) return;
+
+      const newTodo = {
+        id: nextId++,
+        content: content,
+        done: false,
+        category: '工作', // 默认分类
+        priority: 'medium' // 默认优先级
+      };
+
+      todoList.unshift(newTodo);
+      input.value = '';
+      saveToLocalStorage();
+      renderTodoList();
+    }
+
+    // 切换完成状态
+    function toggleDone(id) {
+      const todo = todoList.find(t => t.id === id);
+      if (todo) {
+        todo.done = !todo.done;
+        saveToLocalStorage();
+        renderTodoList();
+      }
+    }
+
+    // 删除待办
+    function deleteTodo(id) {
+      todoList = todoList.filter(todo => todo.id !== id);
+      saveToLocalStorage();
+      renderTodoList();
+    }
+
+    // 清空已完成
+    function clearDone() {
+      todoList = todoList.filter(todo => !todo.done);
+      saveToLocalStorage();
+      renderTodoList();
+    }
+
+    // 筛选事件监听
+    document.getElementById('categoryFilter').addEventListener('change', renderTodoList);
+    document.getElementById('priorityFilter').addEventListener('change', renderTodoList);
+    document.getElementById('statusFilter').addEventListener('change', renderTodoList);
+
+    // 初始化
+    loadFromLocalStorage();
+    renderTodoList();
+  </script>
 </body>
 </html>

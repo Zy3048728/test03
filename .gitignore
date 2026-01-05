@@ -7,10 +7,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
-dist
-dist-ssr
-*.local
 
 # Editor directories and files
 .vscode/*
@@ -27,14 +25,14 @@ dist-ssr
 .env.local
 .env.*.local
 
-# Testing
-coverage
-*.lcov
-
 # Temporary files
 *.tmp
 *.temp
 .cache
+
+# Testing
+coverage
+*.lcov
 
 # OS generated files
 Thumbs.db
@@ -44,3 +42,12 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+
+# Git
+.git
+
+# Don't ignore build output
+!assets/
+!index.html
+!*.js
+!*.css
