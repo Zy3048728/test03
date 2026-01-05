@@ -14,52 +14,91 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background-color: #f5f7fa;
+      background-color: #f0f2f5;
     }
     .app-container {
       width: 100%;
       min-height: 100vh;
     }
     .app-header {
-      background-color: #1989fa;
+      background-color: #409eff;
       color: white;
       text-align: center;
-      padding: 20px;
+      padding: 15px 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
     .app-header h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
     }
     .app-main {
       padding: 20px;
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
     }
     .todo-card {
       background-color: white;
       border-radius: 8px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
       padding: 20px;
+      margin-bottom: 20px;
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ebeef5;
     }
     .card-header span {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
+      color: #303133;
     }
-    .todo-input {
+    .todo-form {
       margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .todo-form input, .todo-form select {
+      padding: 8px 15px;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .todo-content-input {
+      flex: 1;
+      min-width: 200px;
+    }
+    .todo-select {
+      width: 120px;
     }
     .todo-filters {
       margin-bottom: 20px;
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-tag {
+      padding: 4px 12px;
+      border: 1px solid #dcdfe6;
+      border-radius: 15px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .filter-tag:hover {
+      background-color: #ecf5ff;
+      border-color: #c6e2ff;
+    }
+    .filter-tag.active {
+      background-color: #409eff;
+      color: white;
+      border-color: #409eff;
     }
     .todo-list {
       margin: 20px 0;
@@ -68,12 +107,13 @@
       overflow: hidden;
     }
     .todo-item {
-      padding: 12px 20px;
+      padding: 15px 20px;
       border-bottom: 1px solid #ebeef5;
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.3s;
+      background-color: white;
     }
     .todo-item:last-child {
       border-bottom: none;
@@ -89,97 +129,186 @@
     }
     .todo-text {
       flex: 1;
+      font-size: 14px;
+      color: #303133;
     }
     .done {
       text-decoration: line-through;
-      color: #999;
+      color: #909399;
+    }
+    .todo-actions {
+      display: flex;
+      gap: 5px;
     }
     .todo-stats {
-      margin-top: 20px;
-      padding-top: 15px;
-      border-top: 1px solid #ebeef5;
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #f5f7fa;
+      border-radius: 4px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 14px;
+      color: #606266;
     }
-    .todo-chart {
+    .stats-section {
       margin-top: 20px;
-      padding: 20px;
-      background-color: #fafafa;
-      border-radius: 8px;
     }
-    .todo-chart h3 {
-      margin-bottom: 20px;
+    .stats-title {
       font-size: 16px;
       font-weight: 600;
+      color: #303133;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ebeef5;
     }
-    .chart-grid {
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
-    .chart-item {
-      text-align: center;
-      padding: 20px;
+    .stat-item {
       background-color: white;
+      padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: #909399;
+      margin-bottom: 10px;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: #303133;
+    }
+    .stat-value.done {
+      color: #67c23a;
+    }
+    .stat-value.high {
+      color: #f56c6c;
+    }
+    .stat-value.medium {
+      color: #e6a23c;
+    }
+    .stat-value.low {
+      color: #67c23a;
+    }
+    .chart-section {
+      margin-top: 20px;
+    }
+    .chart-item {
+      margin-bottom: 20px;
     }
     .chart-label {
       font-size: 14px;
-      color: #666;
+      color: #606266;
       margin-bottom: 10px;
     }
-    .chart-value {
-      font-size: 28px;
-      font-weight: 600;
-      color: #333;
+    .chart-bar {
+      height: 20px;
+      background-color: #f0f2f5;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 5px;
     }
-    .done-value {
-      color: #67c23a;
+    .chart-bar-fill {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .chart-bar-fill.work {
+      background-color: #409eff;
+    }
+    .chart-bar-fill.study {
+      background-color: #67c23a;
+    }
+    .chart-bar-fill.life {
+      background-color: #e6a23c;
+    }
+    .chart-bar-fill.other {
+      background-color: #909399;
+    }
+    .chart-bar-fill.high {
+      background-color: #f56c6c;
+    }
+    .chart-bar-fill.medium {
+      background-color: #e6a23c;
+    }
+    .chart-bar-fill.low {
+      background-color: #67c23a;
+    }
+    .chart-bar-text {
+      font-size: 12px;
+      color: #909399;
+      text-align: right;
+    }
+    .recent-tasks {
+      margin-top: 20px;
+    }
+    .recent-tasks table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+    .recent-tasks th, .recent-tasks td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ebeef5;
+    }
+    .recent-tasks th {
+      background-color: #f5f7fa;
+      font-weight: 600;
+      color: #303133;
+      font-size: 14px;
+    }
+    .recent-tasks td {
+      font-size: 14px;
+      color: #606266;
     }
     .empty-tip {
       text-align: center;
       padding: 40px 20px;
-      color: #999;
+      color: #909399;
+      background-color: #fafafa;
+      border-radius: 4px;
     }
     .app-footer {
       text-align: center;
       padding: 20px;
-      color: #666;
-      border-top: 1px solid #e5e5e5;
+      color: #909399;
+      border-top: 1px solid #ebeef5;
       margin-top: 20px;
-    }
-    .fallback-loading {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f5f7fa;
-    }
-    .fallback-card {
-      padding: 40px;
-      border-radius: 12px;
-      background: white;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    .fallback-loading-icon {
-      font-size: 48px;
-      color: #1989fa;
-      margin-bottom: 20px;
-    }
-    .fallback-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    .fallback-desc {
       font-size: 14px;
-      color: #666;
+    }
+    .el-tag {
+      margin-right: 5px;
+      padding: 2px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    .el-button {
+      padding: 4px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    .el-checkbox {
+      margin-right: 10px;
+    }
+    .date-section {
       margin-bottom: 20px;
+      text-align: center;
+      color: #606266;
+      font-size: 14px;
+    }
+    .today-tasks {
+      font-weight: 600;
+      color: #303133;
+      margin-right: 5px;
     }
   </style>
 </head>
@@ -190,35 +319,39 @@
         <h1>🎯 智能待办清单</h1>
       </header>
       <main class="app-main">
+        <div class="date-section">
+          <span class="today-tasks">今日待办</span>
+          <span id="currentDate"></span>
+        </div>
+        
         <div class="todo-card">
           <div class="card-header">
             <span>📝 我的待办清单</span>
-            <button class="el-button el-button--primary el-button--small" onclick="addTodo()">添加待办</button>
+            <button class="el-button el-button--primary" onclick="addTodo()">添加待办</button>
           </div>
 
-          <div class="todo-input">
-            <input type="text" id="todoContent" placeholder="请输入待办内容" class="el-input__inner" style="width: 100%; padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;" onkeyup="if(event.keyCode==13) addTodo()">
-          </div>
-
-          <div class="todo-filters">
-            <select id="categoryFilter" class="el-select__input" style="padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;">
-              <option value="">所有分类</option>
+          <div class="todo-form">
+            <input type="text" id="todoContent" placeholder="请输入待办内容" class="todo-content-input el-input__inner">
+            <select id="todoCategory" class="todo-select el-select__input">
               <option value="工作">工作</option>
               <option value="学习">学习</option>
               <option value="生活">生活</option>
               <option value="其他">其他</option>
             </select>
-            <select id="priorityFilter" class="el-select__input" style="padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;">
-              <option value="">所有优先级</option>
-              <option value="low">低</option>
-              <option value="medium">中</option>
+            <select id="todoPriority" class="todo-select el-select__input">
               <option value="high">高</option>
+              <option value="medium">中</option>
+              <option value="low">低</option>
             </select>
-            <select id="statusFilter" class="el-select__input" style="padding: 8px 15px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px;">
-              <option value="">所有状态</option>
-              <option value="false">未完成</option>
-              <option value="true">已完成</option>
-            </select>
+          </div>
+
+          <div class="todo-filters">
+            <span class="filter-tag active" onclick="setFilter('all')">全部</span>
+            <span class="filter-tag" onclick="setFilter('undone')">未完成</span>
+            <span class="filter-tag" onclick="setFilter('done')">已完成</span>
+            <span class="filter-tag" onclick="setFilter('high')">高优先级</span>
+            <span class="filter-tag" onclick="setFilter('medium')">中优先级</span>
+            <span class="filter-tag" onclick="setFilter('low')">低优先级</span>
           </div>
 
           <div class="todo-list" id="todoList">
@@ -229,23 +362,85 @@
             <span id="stats">已完成：0 / 总数：0</span>
             <button class="el-button el-button--text" onclick="clearDone()" id="clearBtn" disabled>清空已完成</button>
           </div>
+        </div>
 
-          <div class="todo-chart">
-            <h3>📊 任务统计</h3>
-            <div class="chart-grid">
-              <div class="chart-item">
-                <div class="chart-label">总任务数</div>
-                <div class="chart-value" id="totalCount">0</div>
-              </div>
-              <div class="chart-item">
-                <div class="chart-label">已完成</div>
-                <div class="chart-value done-value" id="doneCount">0</div>
-              </div>
-              <div class="chart-item">
-                <div class="chart-label">完成率</div>
-                <div class="chart-value" id="completionRate">0%</div>
-              </div>
+        <div class="todo-card">
+          <div class="card-header">
+            <span>📊 任务统计</span>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-label">总任务数</div>
+              <div class="stat-value" id="totalCount">0</div>
             </div>
+            <div class="stat-item">
+              <div class="stat-label">已完成</div>
+              <div class="stat-value done" id="doneCount">0</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">完成率</div>
+              <div class="stat-value" id="completionRate">0%</div>
+            </div>
+          </div>
+          
+          <div class="chart-section">
+            <div class="chart-item">
+              <div class="chart-label">分类统计</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill work" id="workBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">工作：<span id="workCount">0</span> 项</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill study" id="studyBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">学习：<span id="studyCount">0</span> 项</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill life" id="lifeBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">生活：<span id="lifeCount">0</span> 项</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill other" id="otherBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">其他：<span id="otherCount">0</span> 项</div>
+            </div>
+            
+            <div class="chart-item">
+              <div class="chart-label">优先级统计</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill high" id="highBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">高优先级：<span id="highCount">0</span> 项</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill medium" id="mediumBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">中优先级：<span id="mediumCount">0</span> 项</div>
+              <div class="chart-bar">
+                <div class="chart-bar-fill low" id="lowBar" style="width: 0%"></div>
+              </div>
+              <div class="chart-bar-text">低优先级：<span id="lowCount">0</span> 项</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="todo-card">
+          <div class="card-header">
+            <span>📋 本月统计记录</span>
+          </div>
+          <div class="recent-tasks">
+            <table>
+              <thead>
+                <tr>
+                  <th>任务名称</th>
+                  <th>分类</th>
+                  <th>优先级</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody id="recentTasks">
+                <!-- 最近任务将通过JavaScript动态生成 -->
+              </tbody>
+            </table>
           </div>
         </div>
       </main>
@@ -259,6 +454,14 @@
     // 全局变量
     let todoList = [];
     let nextId = 1;
+    let currentFilter = 'all';
+
+    // 设置当前日期
+    function setCurrentDate() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
+    }
 
     // 从本地存储加载数据
     function loadFromLocalStorage() {
@@ -320,27 +523,42 @@
       return priorityMap[priority] || '中';
     }
 
+    // 设置筛选条件
+    function setFilter(filter) {
+      currentFilter = filter;
+      // 更新筛选标签样式
+      document.querySelectorAll('.filter-tag').forEach(tag => tag.classList.remove('active'));
+      event.target.classList.add('active');
+      renderTodoList();
+    }
+
+    // 筛选待办列表
+    function getFilteredTodos() {
+      let filtered = todoList;
+      switch (currentFilter) {
+        case 'undone':
+          filtered = todoList.filter(todo => !todo.done);
+          break;
+        case 'done':
+          filtered = todoList.filter(todo => todo.done);
+          break;
+        case 'high':
+          filtered = todoList.filter(todo => todo.priority === 'high');
+          break;
+        case 'medium':
+          filtered = todoList.filter(todo => todo.priority === 'medium');
+          break;
+        case 'low':
+          filtered = todoList.filter(todo => todo.priority === 'low');
+          break;
+      }
+      return filtered;
+    }
+
     // 渲染待办列表
     function renderTodoList() {
       const todoListElement = document.getElementById('todoList');
-      const categoryFilter = document.getElementById('categoryFilter').value;
-      const priorityFilter = document.getElementById('priorityFilter').value;
-      const statusFilter = document.getElementById('statusFilter').value;
-
-      // 筛选待办列表
-      const filteredTodos = todoList.filter(todo => {
-        let match = true;
-        if (categoryFilter) {
-          match = match && todo.category === categoryFilter;
-        }
-        if (priorityFilter) {
-          match = match && todo.priority === priorityFilter;
-        }
-        if (statusFilter !== '') {
-          match = match && todo.done === (statusFilter === 'true');
-        }
-        return match;
-      });
+      const filteredTodos = getFilteredTodos();
 
       if (filteredTodos.length === 0) {
         todoListElement.innerHTML = '<div class="empty-tip">暂无待办，点击添加开始吧～</div>';
@@ -348,17 +566,22 @@
         todoListElement.innerHTML = filteredTodos.map(todo => `
           <div class="todo-item">
             <div class="todo-content">
-              <input type="checkbox" ${todo.done ? 'checked' : ''} onclick="toggleDone(${todo.id})" style="margin-right: 10px;">
+              <input type="checkbox" ${todo.done ? 'checked' : ''} onclick="toggleDone(${todo.id})" class="el-checkbox__input">
               <span class="todo-text ${todo.done ? 'done' : ''}">${todo.content}</span>
-              <span class="el-tag ${getCategoryClass(todo.category)} el-tag--small" style="margin-right: 5px; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${todo.category}</span>
-              <span class="el-tag ${getPriorityClass(todo.priority)} el-tag--small" style="margin-right: 5px; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${getPriorityText(todo.priority)}</span>
+              <span class="el-tag ${getCategoryClass(todo.category)}">${todo.category}</span>
+              <span class="el-tag ${getPriorityClass(todo.priority)}">${getPriorityText(todo.priority)}</span>
             </div>
-            <button class="el-button el-button--danger el-button--small" onclick="deleteTodo(${todo.id})" style="padding: 4px 12px; font-size: 12px;">删除</button>
+            <div class="todo-actions">
+              <button class="el-button ${todo.done ? 'el-button--success' : 'el-button--info'}" onclick="toggleDone(${todo.id})"><i class="el-icon-check"></i></button>
+              <button class="el-button el-button--danger" onclick="deleteTodo(${todo.id})"><i class="el-icon-delete"></i></button>
+            </div>
           </div>
         `).join('');
       }
 
       updateStats();
+      updateCharts();
+      renderRecentTasks();
     }
 
     // 更新统计信息
@@ -375,22 +598,73 @@
       document.getElementById('clearBtn').disabled = done === 0;
     }
 
+    // 更新图表
+    function updateCharts() {
+      const total = todoList.length;
+      
+      // 分类统计
+      const workCount = todoList.filter(todo => todo.category === '工作').length;
+      const studyCount = todoList.filter(todo => todo.category === '学习').length;
+      const lifeCount = todoList.filter(todo => todo.category === '生活').length;
+      const otherCount = todoList.filter(todo => todo.category === '其他').length;
+      
+      document.getElementById('workCount').textContent = workCount;
+      document.getElementById('studyCount').textContent = studyCount;
+      document.getElementById('lifeCount').textContent = lifeCount;
+      document.getElementById('otherCount').textContent = otherCount;
+      
+      document.getElementById('workBar').style.width = total > 0 ? `${(workCount / total) * 100}%` : '0%';
+      document.getElementById('studyBar').style.width = total > 0 ? `${(studyCount / total) * 100}%` : '0%';
+      document.getElementById('lifeBar').style.width = total > 0 ? `${(lifeCount / total) * 100}%` : '0%';
+      document.getElementById('otherBar').style.width = total > 0 ? `${(otherCount / total) * 100}%` : '0%';
+      
+      // 优先级统计
+      const highCount = todoList.filter(todo => todo.priority === 'high').length;
+      const mediumCount = todoList.filter(todo => todo.priority === 'medium').length;
+      const lowCount = todoList.filter(todo => todo.priority === 'low').length;
+      
+      document.getElementById('highCount').textContent = highCount;
+      document.getElementById('mediumCount').textContent = mediumCount;
+      document.getElementById('lowCount').textContent = lowCount;
+      
+      document.getElementById('highBar').style.width = total > 0 ? `${(highCount / total) * 100}%` : '0%';
+      document.getElementById('mediumBar').style.width = total > 0 ? `${(mediumCount / total) * 100}%` : '0%';
+      document.getElementById('lowBar').style.width = total > 0 ? `${(lowCount / total) * 100}%` : '0%';
+    }
+
+    // 渲染最近任务
+    function renderRecentTasks() {
+      const recentTasksElement = document.getElementById('recentTasks');
+      const recentTasks = [...todoList].slice(0, 5);
+      
+      recentTasksElement.innerHTML = recentTasks.map(todo => `
+        <tr>
+          <td>${todo.content}</td>
+          <td><span class="el-tag ${getCategoryClass(todo.category)}">${todo.category}</span></td>
+          <td><span class="el-tag ${getPriorityClass(todo.priority)}">${getPriorityText(todo.priority)}</span></td>
+          <td>${todo.done ? '<span class="el-tag el-tag--success">已完成</span>' : '<span class="el-tag el-tag--info">未完成</span>'}</td>
+        </tr>
+      `).join('');
+    }
+
     // 添加待办
     function addTodo() {
-      const input = document.getElementById('todoContent');
-      const content = input.value.trim();
+      const content = document.getElementById('todoContent').value.trim();
+      const category = document.getElementById('todoCategory').value;
+      const priority = document.getElementById('todoPriority').value;
+      
       if (!content) return;
 
       const newTodo = {
         id: nextId++,
         content: content,
         done: false,
-        category: '工作', // 默认分类
-        priority: 'medium' // 默认优先级
+        category: category,
+        priority: priority
       };
 
       todoList.unshift(newTodo);
-      input.value = '';
+      document.getElementById('todoContent').value = '';
       saveToLocalStorage();
       renderTodoList();
     }
@@ -419,12 +693,15 @@
       renderTodoList();
     }
 
-    // 筛选事件监听
-    document.getElementById('categoryFilter').addEventListener('change', renderTodoList);
-    document.getElementById('priorityFilter').addEventListener('change', renderTodoList);
-    document.getElementById('statusFilter').addEventListener('change', renderTodoList);
+    // 添加键盘事件监听
+    document.getElementById('todoContent').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        addTodo();
+      }
+    });
 
     // 初始化
+    setCurrentDate();
     loadFromLocalStorage();
     renderTodoList();
   </script>
